@@ -2,6 +2,11 @@
   "name": "top-waldo-api",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
+  "engines": {
+    "node": ">=22.1.0",
+    "npm": "9.6.7"
+  },
   "main": "./src/app.ts",
   "scripts": {
     "build": "tsc --build",
