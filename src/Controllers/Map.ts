@@ -22,7 +22,7 @@ export const map_get = async (req: Request<map_get>, res: Response, next: NextFu
       return res.status(404).send({ message: 'Map not found' });
     }
 
-    res.status(200).send(query.rows);
+    res.status(200).send(query.rows[0]);
   } catch (error) {
     next(error);
   }
