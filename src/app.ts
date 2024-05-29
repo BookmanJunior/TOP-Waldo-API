@@ -3,6 +3,7 @@ import logger from 'morgan';
 import cors from 'cors';
 
 import MapRouter from './Routes/Map.js';
+import LeaderboardRouter from './Routes/Leaderboard.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -17,6 +18,7 @@ app.use(
 );
 
 app.use('/maps', MapRouter);
+app.use('/leaderboard', LeaderboardRouter);
 
 app.listen(port, () => {
   console.log(`Starting server on port ${port}`);
