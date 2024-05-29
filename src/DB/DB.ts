@@ -13,7 +13,7 @@ const pool = new Pool({
   application_name: 'Waldo'
 });
 
-export const dbquery = async (text: string, params?: string[]) => {
+export const dbquery = async (text: string, params?: (string | number)[]) => {
   const res = await pool.query(text, params);
   return res;
 };
