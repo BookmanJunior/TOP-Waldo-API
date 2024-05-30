@@ -1,5 +1,5 @@
 import { configDotenv } from 'dotenv';
-import pg from 'pg';
+import pg, { QueryResultBase } from 'pg';
 const { Pool } = pg;
 
 configDotenv();
@@ -13,7 +13,14 @@ const pool = new Pool({
   application_name: 'Waldo'
 });
 
-export const dbquery = async (text: string, params?: (string | number)[]) => {
+interface QueryResult<T> extends QueryResultBase {
+  rows: T[];
+}
+
+export const dbquery = async <T>(
+  text: string,
+  params?: (string | number)[]
+): Promise<QueryResult<T>> => {
   const res = await pool.query(text, params);
   return res;
 };
