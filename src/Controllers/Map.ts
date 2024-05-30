@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { dbquery } from '../DB/DB.js';
+import { Map, mapGetParams } from '../Types/Map.js';
+import { MapMarkerModel } from '../Types/MapMarker.js';
 
 export const maps_get = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -10,19 +12,19 @@ export const maps_get = async (req: Request, res: Response, next: NextFunction) 
   }
 };
 
-interface map_get {
-  map_id: string;
-}
-
-export const map_get = async (req: Request<map_get>, res: Response, next: NextFunction) => {
+export const map_get = async (req: Request<mapGetParams>, res: Response, next: NextFunction) => {
   try {
-    const query = await dbquery(`SELECT * FROM MAPS WHERE MAP_ID=${req.params.map_id}`);
+    const mapQuery = await dbquery<Map>(`SELECT * FROM MAPS WHERE MAP_ID=${req.params.map_id}`);
+    const mapMarkersQuery = await dbquery<MapMarkerModel>(
+      `SELECT IMG, NAME FROM MAP_MARKERS WHERE MAP_ID = ${req.params.map_id}`
+    );
 
-    if (!query.rows.length) {
+    if (!mapQuery.rows.length) {
       return res.status(404).send({ message: 'Map not found' });
     }
 
-    res.status(200).send(query.rows[0]);
+    const obj = { ...mapQuery.rows[0], map_data: mapMarkersQuery.rows };
+    res.status(200).send(obj);
   } catch (error) {
     next(error);
   }
