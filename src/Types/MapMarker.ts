@@ -6,3 +6,9 @@ export interface MapMarkerModel {
   img: string;
   map_id: number;
 }
+
+export interface mapMarkersPost {
+  x: number;
+  y: number;
+  charName: string;
+}
