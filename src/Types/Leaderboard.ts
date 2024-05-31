@@ -1,7 +1,15 @@
-export interface Leaderboard {
+export interface mapId {
+  map_id: number;
+}
+
+export interface Leaderboard extends mapId {
   id: number;
   name: string;
   time: number;
   created_at: number;
-  map_id: number;
+}
+
+export interface leaderboardPostBody extends mapId {
+  name: string;
+  time: number;
 }
