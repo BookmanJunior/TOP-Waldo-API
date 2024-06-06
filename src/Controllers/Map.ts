@@ -14,16 +14,17 @@ export const maps_get = async (req: Request, res: Response, next: NextFunction) 
 
 export const map_get = async (req: Request<mapGetParams>, res: Response, next: NextFunction) => {
   try {
-    const mapQuery = await dbquery<Map>(`SELECT * FROM MAPS WHERE MAP_ID=${req.params.map_id}`);
-    const mapMarkersQuery = await dbquery<MapMarkerModel>(
+    const mapQuery = dbquery<Map>(`SELECT * FROM MAPS WHERE MAP_ID=${req.params.map_id}`);
+    const mapMarkersQuery = dbquery<MapMarkerModel>(
       `SELECT IMG, NAME FROM MAP_MARKERS WHERE MAP_ID = ${req.params.map_id}`
     );
+    const [mapRes, mapMarkersRes] = await Promise.all([mapQuery, mapMarkersQuery]);
 
-    if (!mapQuery.rows.length) {
+    if (!mapRes.rows.length) {
       return res.status(404).send({ message: 'Map not found' });
     }
 
-    const obj = { ...mapQuery.rows[0], map_data: mapMarkersQuery.rows };
+    const obj = { ...mapRes.rows[0], map_data: mapMarkersRes.rows };
     res.status(200).send(obj);
   } catch (error) {
     next(error);
