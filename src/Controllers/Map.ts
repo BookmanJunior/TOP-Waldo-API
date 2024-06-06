@@ -5,7 +5,7 @@ import { MapMarkerModel } from '../Types/MapMarker.js';
 
 export const maps_get = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const query = await dbquery('SELECT * FROM MAPS');
+    const query = await dbquery('SELECT * FROM MAPS ORDER BY MAP_ID ASC');
     res.status(200).send(query.rows);
   } catch (error) {
     next(error);
