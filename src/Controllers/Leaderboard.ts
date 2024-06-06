@@ -2,6 +2,15 @@ import { NextFunction, Request, Response } from 'express';
 import { dbquery } from '../DB/DB.js';
 import { Leaderboard, leaderboardPostBody, mapId } from '../Types/Leaderboard.js';
 
+export const leaderboard_all_get = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const query = await dbquery<Leaderboard>(`SELECT * FROM LEADERBOARD ORDER BY TIME ASC`);
+    res.status(200).send(query.rows);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const leaderboard_get = async (req: Request<mapId>, res: Response, next: NextFunction) => {
   try {
     const query = await getLeaderboard(req.params.map_id);
