@@ -11,7 +11,7 @@ import * as dotenv from 'dotenv';
 import MapRouter from './Routes/Map.js';
 import LeaderboardRouter from './Routes/Leaderboard.js';
 import MapMakerRouter from './Routes/MapMarker.js';
-import { UnexpectedErrorHandler } from './Helpers/UnexpectedErrorHandler.js';
+import { UnexpectedErrorHandler } from './helpers/UnexpectedErrorHandler.js';
 
 dotenv.configDotenv();
 const app = express();
