@@ -11,5 +11,4 @@ export interface Leaderboard extends mapId {
 
 export interface leaderboardPostBody extends mapId {
   name: string;
-  time: number;
 }
