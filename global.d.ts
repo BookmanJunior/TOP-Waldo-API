@@ -6,5 +6,7 @@ namespace NodeJS {
     DB: string;
     DB_HOST: string;
     DB_PORT: number;
+    NODE_ENV: string;
+    COOKIE_SECRET: string;
   }
 }
