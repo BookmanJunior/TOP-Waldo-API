@@ -7,6 +7,7 @@ import rateLimit from 'express-rate-limit';
 import MapRouter from './Routes/Map.js';
 import LeaderboardRouter from './Routes/Leaderboard.js';
 import MapMakerRouter from './Routes/MapMarker.js';
+import { UnexpectedErrorHandler } from './Helpers/UnexpectedErrorHandler.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -31,6 +32,7 @@ app.use(limiter);
 app.use('/maps', MapRouter);
 app.use('/leaderboard', LeaderboardRouter);
 app.use('/marker', MapMakerRouter);
+app.use(UnexpectedErrorHandler);
 
 app.listen(port, () => {
   console.log(`Starting server on port ${port}`);
