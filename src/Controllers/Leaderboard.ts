@@ -25,7 +25,7 @@ export const leaderboard_post = async (
   res: Response,
   next: NextFunction
 ) => {
-  const queryParams = [req.body.name, req.body.time, req.body.map_id];
+  const queryParams = [req.body.name, req.body.map_id];
 
   try {
     await dbquery('INSERT INTO LEADERBOARD (name, time, map_id) VALUES ($1, $2, $3)', queryParams);
