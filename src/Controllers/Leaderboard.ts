@@ -39,7 +39,8 @@ export const leaderboard_post = [
     const error = validationResult(req).formatWith(errorFormatter);
 
     if (!req.session.finalTime) {
-      throw new Error('Current session missing final time');
+      const error = new Error('Current session missing final time');
+      return next(error);
     }
 
     const queryParams = [req.body.name, req.session.finalTime, req.body.map_id];
