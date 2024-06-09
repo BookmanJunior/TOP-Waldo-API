@@ -25,13 +25,13 @@ export const map_markers_post = [
       );
 
       if (
-        Math.abs(req.body.x - query.rows[0].x) >= 5 &&
-        Math.abs(req.body.y - query.rows[0].y) >= 5
+        Math.abs(req.body.x - query.rows[0].x) <= 5 &&
+        Math.abs(req.body.y - query.rows[0].y) <= 5
       ) {
-        return res.sendStatus(400);
+        return next();
       }
 
-      next();
+      res.sendStatus(400);
     } catch (error) {
       next(error);
     }
