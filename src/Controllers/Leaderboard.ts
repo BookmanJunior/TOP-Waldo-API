@@ -37,7 +37,12 @@ export const leaderboard_post = [
       return msg;
     };
     const error = validationResult(req).formatWith(errorFormatter);
-    const queryParams = [req.body.name, req.body.map_id];
+
+    if (!req.session.finalTime) {
+      throw new Error('Current session missing final time');
+    }
+
+    const queryParams = [req.body.name, req.session.finalTime, req.body.map_id];
 
     if (!error.isEmpty()) {
       return res.status(400).send(error.mapped());
