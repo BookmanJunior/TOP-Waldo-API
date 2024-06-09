@@ -11,7 +11,7 @@ import * as dotenv from 'dotenv';
 import MapRouter from './Routes/Map.js';
 import LeaderboardRouter from './Routes/Leaderboard.js';
 import MapMakerRouter from './Routes/MapMarker.js';
-import { UnexpectedErrorHandler } from './helpers/UnexpectedErrorHandler.js';
+import { UnexpectedErrorHandler } from './Helpers/UnexpectedErrorHandler.js';
 
 dotenv.configDotenv();
 const app = express();
@@ -35,9 +35,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
-    origin: ['http://localhost:5173', 'https://top-waldo.vercel.app']
+    origin: ['http://localhost:5173', 'https://top-waldo.vercel.app'],
+    credentials: true
   })
 );
+
+if (!process.env.COOKIE_SECRET) {
+  throw new Error('Missing Cookie Secret');
+}
+
 app.use(helmet());
 app.use(limiter);
 app.use(
