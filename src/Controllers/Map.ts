@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { dbquery } from '../DB/DB.js';
-import { Map, mapGetParams } from '../Types/Map.js';
+import { Map, mapGetParams, mapGetRes } from '../Types/Map.js';
 import { MapMarkerModel } from '../Types/MapMarker.js';
 
 export const maps_get = async (req: Request, res: Response, next: NextFunction) => {
@@ -12,7 +12,11 @@ export const maps_get = async (req: Request, res: Response, next: NextFunction) 
   }
 };
 
-export const map_get = async (req: Request<mapGetParams>, res: Response, next: NextFunction) => {
+export const map_get = async (
+  req: Request<mapGetParams>,
+  res: Response<{ message: string }, { gameData: mapGetRes }>,
+  next: NextFunction
+) => {
   try {
     const mapQuery = dbquery<Map>(`SELECT * FROM MAPS WHERE MAP_ID=${req.params.map_id}`);
     const mapMarkersQuery = dbquery<MapMarkerModel>(
@@ -24,11 +28,9 @@ export const map_get = async (req: Request<mapGetParams>, res: Response, next: N
       return res.status(404).send({ message: 'Map not found' });
     }
 
-    req.session.startTime = Date.now();
-    req.session.foundMarkers = 0;
-    req.session.numOfMarkers = mapMarkersRes.rows.length;
-    const obj = { ...mapRes.rows[0], map_data: mapMarkersRes.rows };
-    res.status(200).send(obj);
+    const gameData = { ...mapRes.rows[0], map_data: mapMarkersRes.rows };
+    res.locals.gameData = gameData;
+    next();
   } catch (error) {
     next(error);
   }
