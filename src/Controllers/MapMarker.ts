@@ -31,7 +31,7 @@ export const map_markers_post = [
         return res.sendStatus(400);
       }
 
-      return res.sendStatus(200);
+      next();
     } catch (error) {
       next(error);
     }
