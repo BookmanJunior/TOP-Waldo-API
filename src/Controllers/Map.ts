@@ -18,9 +18,11 @@ export const map_get = async (
   next: NextFunction
 ) => {
   try {
-    const mapQuery = dbquery<Map>(`SELECT * FROM MAPS WHERE MAP_ID=${req.params.map_id}`);
+    const queryParams = [req.params.map_id];
+    const mapQuery = dbquery<Map>(`SELECT * FROM MAPS WHERE MAP_ID=$1`, queryParams);
     const mapMarkersQuery = dbquery<MapMarkerModel>(
-      `SELECT IMG, NAME FROM MAP_MARKERS WHERE MAP_ID = ${req.params.map_id}`
+      `SELECT IMG, NAME FROM MAP_MARKERS WHERE MAP_ID = $1`,
+      queryParams
     );
     const [mapRes, mapMarkersRes] = await Promise.all([mapQuery, mapMarkersQuery]);
 

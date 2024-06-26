@@ -64,7 +64,9 @@ export const leaderboard_post = [
 ];
 
 async function getLeaderboard(map_id: number) {
+  const queryParam = [map_id];
   return await dbquery<Leaderboard>(
-    `SELECT * FROM LEADERBOARD WHERE MAP_ID = ${map_id} ORDER BY TIME ASC LIMIT 10`
+    `SELECT * FROM LEADERBOARD WHERE MAP_ID = $1 ORDER BY TIME ASC LIMIT 10`,
+    queryParam
   );
 }

@@ -20,8 +20,10 @@ export const map_markers_post = [
     }
 
     try {
+      const queryParam = [req.body.charName];
       const query = await dbquery<MapMarkerModel>(
-        `SELECT * FROM MAP_MARKERS WHERE NAME = '${req.body.charName}'`
+        `SELECT * FROM MAP_MARKERS WHERE NAME = $1`,
+        queryParam
       );
 
       if (
